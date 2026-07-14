@@ -49,7 +49,7 @@ header.nav .brand{font-family:Fraunces,serif;color:#fff;font-weight:700;font-siz
 .card .live{display:inline-block;margin-left:8px;font-size:.72rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.05em}
 .cols2{display:grid;gap:16px;grid-template-columns:1fr 1fr}
 @media(max-width:640px){.cols2{grid-template-columns:1fr}}
-.colbox{border-radius:14px;padding:20px}
+.colbox{border-radius:14px;padding:20px;color:#000}
 .colbox.ok{background:#EAF4EE;border:1px solid var(--green)}
 .colbox.stop{background:#FBF1F0;border:1px solid var(--red)}
 .colbox h4{font-family:Fraunces,serif;font-size:1.05rem;margin-bottom:10px}
@@ -131,7 +131,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:.85rem}
   <div class="big">El permiso decide la herramienta, no al revés.</div>
   <div class="sub">Clasifica el material antes de pegarlo. Desactivar el entrenamiento en tu cuenta personal es privacidad, no autorización corporativa.</div>
   <div class="cols2" style="margin-top:24px">
-    <div class="colbox ok"><h4>SÍ, en la demo</h4><ul>
+    <div class="colbox ok"><h4>SÍ</h4><ul>
       <li>Documento público o ficticio</li>
       <li>Material anonimizado y expresamente aprobado</li>
       <li>Solo en el workspace autorizado para ese nivel</li></ul></div>
@@ -277,7 +277,7 @@ footer{padding:40px 0;text-align:center;color:var(--mut);font-size:.85rem}
 <!-- TRUCOS -->
 <section id="trucos"><div class="wrap">
   <div class="kick">Bloque 5</div>
-  <h2>15 trucos que reducen retrabajo</h2>
+  <h2>5 trucos que de verdad reducen trabajo</h2>
   <p class="lead">El nº1 es el que más cambia tus resultados: deja que la IA te entreviste.</p>
   <ul class="clean" id="trucosList"></ul>
 </div></section>
@@ -440,21 +440,11 @@ const CHECK4=[
 ];
 
 const TRUCOS=[
- "Deja que la IA te entreviste (AskUserQuestion): “Antes de empezar, hazme preguntas de opción múltiple para afinar.” Se prompta sola mejor que tú.",
- "Prompt de cinco piezas: objetivo, entradas, restricciones, formato y criterio de aceptación.",
- "Escape hatch: “Si no consta en la fuente, escribe ‘No consta’; no completes el hueco.”",
- "Plan antes de ejecución: en Work/Cowork, revisa el plan y limita carpetas, apps y acciones antes de aprobar.",
- "Carpeta mínima: conecta solo la carpeta de la tarea, nunca una unidad completa por comodidad.",
- "Cita que realmente sostiene: pide página/sección y un pasaje breve, no solo una bibliografía al final.",
- "Chat limpio para verificar: genera en un chat; verifica el texto congelado en otro con VERACITY SCORE.",
- "Separa dato, inferencia y recomendación. Si aparecen mezclados, el lector no puede auditar el razonamiento.",
- "Mismo input, misma rúbrica: compara modelos o skills solo con casos y criterios idénticos.",
- "Crear caro, ejecutar eficiente: Fable/high para diseñar o depurar; ejecuta con el modelo más barato que pase el umbral.",
- "Un ejemplo vale más que diez adjetivos: adjunta una buena salida anterior y explica qué conservar.",
- "No repares todo a la vez: itera una dimensión (contenido, formato, fuentes o tono).",
- "Fecha y versión: para guías, aprobaciones, modelos o políticas, exige fecha de consulta y versión.",
- "No confundas opt-out con autorización: una cuenta personal con entrenamiento desactivado no es un workspace corporativo aprobado.",
- "Cierre operativo: “Dime qué no pudiste verificar, qué tengo que decidir yo y cuál es el siguiente paso.”"
+ "Deja que la IA te entreviste: “Antes de empezar, hazme preguntas de opción múltiple para afinar la tarea.” Ella se prompta sola mejor que tú y te ahorras tres idas y vueltas.",
+ "Adjunta un ejemplo de salida buena: “haz que se parezca a esto”. Un buen ejemplo sustituye a diez adjetivos y a la mitad de las correcciones.",
+ "Cierra la puerta a la invención: “Si no consta en la fuente, escribe ‘No consta’; no completes el hueco.” Menos alucinaciones = menos tiempo verificando.",
+ "Corrige UNA cosa por turno: primero contenido, luego formato, luego tono. Pedirlo todo a la vez rompe lo que ya estaba bien.",
+ "Si lo has pedido dos veces, no lo escribas una tercera: guarda el prompt ganador en un proyecto o una skill y reutilízalo con un clic."
 ];
 
 const GIFTS=[
