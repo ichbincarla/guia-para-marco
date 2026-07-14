@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de IA · Marco — Clase 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233A; --ink2:#1E3350; --teal:#0E7C86; --teald:#0A5A62;
+  --mist:#EEF2F6; --line:#D8E0E8; --mut:#5B6875; --amber:#B5730B;
+  --green:#1F7A54; --red:#B4433A; --paper:#F7F9FB; --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;font-weight:700}
+a{color:var(--teal)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+section{padding:54px 0;border-bottom:1px solid var(--line)}
+.kick{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:8px}
+h3.blocktitle{font-size:1.3rem;margin:26px 0 10px}
+.lead{color:var(--mut);font-size:1.05rem;margin-bottom:24px;max-width:72ch}
+header.nav{position:sticky;top:0;z-index:50;background:rgba(22,35,58,.97);backdrop-filter:blur(6px)}
+header.nav .wrap{display:flex;align-items:center;gap:16px;padding:11px 20px;flex-wrap:wrap}
+header.nav a{color:#C7D3DD;text-decoration:none;font-size:.85rem;font-weight:500;white-space:nowrap}
+header.nav a:hover{color:#fff}
+header.nav .brand{font-family:Fraunces,serif;color:#fff;font-weight:700;font-size:1rem;margin-right:auto}
+.hero{background:var(--ink);color:#fff;border:0}
+.hero .wrap{padding-top:66px;padding-bottom:66px}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem);color:#fff;margin-bottom:18px}
+.hero p{color:#C7D3DD;font-size:1.13rem;max-width:60ch}
+.hero .meta{margin-top:26px;color:#8FB6BB;font-size:.95rem}
+.pill{display:inline-block;background:rgba(14,124,134,.22);color:#9FC3C8;border:1px solid var(--teal);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:20px}
+.rule{background:linear-gradient(180deg,#1b2a44,#16233A);color:#fff;border:0}
+.rule .big{font-family:Fraunces,serif;font-size:clamp(1.4rem,3.6vw,1.95rem);font-weight:600;line-height:1.3;max-width:34ch}
+.rule .sub{color:#9FC3C8;margin-top:16px;font-style:italic}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{font-size:1.12rem;margin-bottom:8px}
+.card .tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:12px;margin-bottom:10px}
+.tag.claude{background:var(--ink);color:#fff}.tag.gpt{background:var(--teal);color:#fff}
+.card p{color:var(--mut);font-size:.95rem}
+.card .live{display:inline-block;margin-left:8px;font-size:.72rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.05em}
+.cols2{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media(max-width:640px){.cols2{grid-template-columns:1fr}}
+.colbox{border-radius:14px;padding:20px}
+.colbox.ok{background:#EAF4EE;border:1px solid var(--green)}
+.colbox.stop{background:#FBF1F0;border:1px solid var(--red)}
+.colbox h4{font-family:Fraunces,serif;font-size:1.05rem;margin-bottom:10px}
+.colbox.ok h4{color:var(--green)}.colbox.stop h4{color:var(--red)}
+.colbox ul{margin:0;padding-left:18px}.colbox li{margin:6px 0;font-size:.95rem}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:.92rem}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--ink);color:#fff;font-weight:600;font-family:Inter}
+tr:last-child td{border-bottom:0}
+td .want{color:var(--teald);font-weight:700}
+td strong{color:var(--ink)}
+.prompt{background:var(--ink);border-radius:14px;margin:14px 0;overflow:hidden}
+.prompt .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;background:#1d2c46;border-bottom:1px solid #2b3c58}
+.prompt .top b{color:#fff;font-family:Inter;font-weight:600;font-size:.92rem}
+.prompt pre{margin:0;padding:16px;color:#DCE6EF;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:360px;overflow:auto}
+.btn{cursor:pointer;border:0;border-radius:8px;padding:7px 14px;font-family:Inter;font-weight:600;font-size:.82rem;background:var(--teal);color:#fff;transition:.15s;white-space:nowrap}
+.btn:hover{background:var(--teald)}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.chipf{cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:20px;padding:6px 14px;font-size:.85rem;font-weight:600}
+.chipf.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.steps{display:grid;gap:12px}
+.step{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+.step .n{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Fraunces,serif}
+.step b{display:block;margin-bottom:2px}
+.step code{background:var(--mist);padding:2px 6px;border-radius:5px;font-size:.85rem}
+ul.clean{list-style:none;display:grid;gap:9px;margin-top:6px}
+ul.clean li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 15px;font-size:.94rem;display:flex;gap:12px}
+ul.clean li span.k{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--mist);color:var(--teald);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-family:Fraunces,serif}
+.gifts{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.gift{background:var(--ink);color:#fff;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.gift .em{font-size:1.6rem}
+.gift h3{font-size:1.15rem;color:#fff}
+.gift p{color:#C7D3DD;font-size:.9rem;flex:1}
+.gift .dl{background:var(--teal);color:#fff;text-decoration:none;text-align:center;border-radius:9px;padding:9px;font-weight:600;font-size:.9rem}
+.gift .dl:hover{background:var(--teald)}
+.states{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.states span{font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:16px;background:var(--mist);color:var(--teald)}
+.srcgrid{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.srcgrid a{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;text-decoration:none;color:var(--ink);font-size:.9rem;font-weight:500}
+.srcgrid a:hover{border-color:var(--teal)}
+.note{background:#FBF4E6;border:1px solid #ecd9a8;border-radius:12px;padding:14px 18px;color:#6b4e12;font-size:.92rem;margin-top:16px}
+.redlist{display:grid;gap:10px}
+.reditem{background:#FBF1F0;border-left:4px solid var(--red);border-radius:10px;padding:12px 16px;font-size:.95rem}
+.reditem b{color:#8f322b}
+.band{background:#E4EEF0;border-radius:12px;padding:14px 18px;color:var(--ink);font-size:.98rem;margin-top:16px}
+footer{padding:40px 0;text-align:center;color:var(--mut);font-size:.85rem}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:.9rem;font-weight:600;opacity:0;transition:.25s;z-index:99;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:600px){section{padding:38px 0}.hero .wrap{padding-top:46px;padding-bottom:46px}}
+</style>
+</head>
+<body>
+
+<header class="nav"><div class="wrap">
+  <span class="brand">Guía IA · Marco</span>
+  <a href="#regla">Regla</a>
+  <a href="#usar">Qué usar</a>
+  <a href="#work">Work</a>
+  <a href="#ejercicio">Ejercicio</a>
+  <a href="#proyectos">Proyectos</a>
+  <a href="#prompts">Prompts</a>
+  <a href="#skills">Skills</a>
+  <a href="#trucos">Trucos</a>
+  <a href="#regalos">Regalos</a>
+  <a href="#plan">Plan</a>
+</div></header>
+
+<!-- REGLA -->
+<section class="hero" id="top"><div class="wrap">
+  <span class="pill">Clase 2 · 14 julio 2026 · 80 min</span>
+  <h1>De chatear con la IA<br>a un sistema que trabaja para ti</h1>
+  <p>Tu guía para leer, resumir y redactar con IA sin perder fiabilidad. Copia cualquier bloque, pégalo en ChatGPT o Claude, descárgate las skills y tenlo todo en un sitio.</p>
+  <div class="meta">Marco · AstraZeneca (terapia celular) &nbsp;·&nbsp; preparado por Carla Casas</div>
+</div></section>
+
+<!-- REGLA -->
+<section class="rule" id="regla"><div class="wrap">
+  <div class="kick" style="color:var(--teal)">Antes de empezar · la puerta de datos</div>
+  <div class="big">El permiso decide la herramienta, no al revés.</div>
+  <div class="sub">Clasifica el material antes de pegarlo. Desactivar el entrenamiento en tu cuenta personal es privacidad, no autorización corporativa.</div>
+  <div class="cols2" style="margin-top:24px">
+    <div class="colbox ok"><h4>SÍ, en la demo</h4><ul>
+      <li>Documento público o ficticio</li>
+      <li>Material anonimizado y expresamente aprobado</li>
+      <li>Solo en el workspace autorizado para ese nivel</li></ul></div>
+    <div class="colbox stop"><h4>Detente y pregunta</h4><ul>
+      <li>Datos de paciente o identificadores</li>
+      <li>Información confidencial o propiedad intelectual</li>
+      <li>Autorización, retención o conectores no confirmados</li></ul></div>
+  </div>
+</div></section>
+
+<!-- QUÉ USAR -->
+<section id="usar"><div class="wrap">
+  <div class="kick">Bloque 1 · Elegir herramienta</div>
+  <h2>¿Comprender, producir o repetir?</h2>
+  <p class="lead">Pregúntate en orden: ¿los datos están permitidos aquí? ¿quiero comprender, producir o repetir? Esa decisión te lleva a la herramienta.</p>
+  <table>
+    <tr><th>Quiero…</th><th>Situación</th><th>Empieza por</th></tr>
+    <tr><td><span class="want">Comprender</span></td><td>Preguntar con citas sobre muchas fuentes</td><td><strong>NotebookLM</strong></td></tr>
+    <tr><td><span class="want">Comprender</span></td><td>Volver al mismo tema con archivos e instrucciones</td><td><strong>Proyecto</strong></td></tr>
+    <tr><td><span class="want">Producir</span></td><td>Investigar y crear Word / Excel / PPTX</td><td><strong>ChatGPT Work</strong></td></tr>
+    <tr><td><span class="want">Producir</span></td><td>Lo mismo dentro del ecosistema Claude</td><td><strong>Cowork</strong></td></tr>
+    <tr><td><span class="want">Repetir</span></td><td>Un proceso que repites en muchos chats</td><td><strong>Skill</strong></td></tr>
+  </table>
+  <div class="band"><b>Si repites CONTEXTO → Proyecto. Si repites MÉTODO → Skill.</b> NotebookLM basado en fuentes ≠ validado: revisa igual.</div>
+</div></section>
+
+<!-- WORK -->
+<section id="work"><div class="wrap">
+  <div class="kick">Bloque 1 · La novedad</div>
+  <h2>ChatGPT Work: qué trae</h2>
+  <p class="lead">Su unidad de trabajo es <strong>el entregable, no la conversación</strong>. Le das una carpeta y un encargo, y trabaja solo hasta dejarte el archivo hecho.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Carpetas y archivos</h3><p>Lee los documentos de la carpeta que elijas y guarda ahí lo que produce.</p></div>
+    <div class="card"><h3>Entrega terminada</h3><p>Word, Excel, PowerPoint: no texto para copiar, el archivo hecho.</p></div>
+    <div class="card"><h3>Conectores con @</h3><p>Drive, SharePoint, Teams, Outlook… mencionas la app y accede a ese contexto.</p></div>
+    <div class="card"><h3>Computer use y tareas</h3><p>Puede navegar y seguir trabajando cuando cierras el portátil.</p></div>
+  </div>
+  <h3 class="blocktitle">Qué cambia para ti — y la letra pequeña</h3>
+  <div class="cols2">
+    <div class="colbox ok"><h4>A tu favor</h4><ul>
+      <li>Tu empresa ya te da ChatGPT: Work en el entorno corporativo es la vía segura mientras Cowork esté bloqueado</li>
+      <li>Los planes de empresa no entrenan con tus datos y el admin controla el gasto</li>
+      <li>Hecho para lo tuyo: protocolos, informes, Excel y slides</li></ul></div>
+    <div class="colbox stop"><h4>La letra pequeña</h4><ul>
+      <li>Carpetas locales = app de escritorio (puede toparse con el bloqueo de IT)</li>
+      <li>Web/móvil no abre tu disco; depende del plan y del admin</li>
+      <li>No elimina la revisión humana ni garantiza leer cada página</li></ul></div>
+  </div>
+</div></section>
+
+<!-- EJERCICIO -->
+<section id="ejercicio"><div class="wrap">
+  <div class="kick">Bloque 2 · Tus documentos</div>
+  <h2>El circuito: carpeta mínima → encargo → entregable</h2>
+  <div class="steps" style="margin-bottom:18px">
+    <div class="step"><div class="n">1</div><p><b>Prepara la carpeta</b>Un solo documento público/ficticio en <code>01-ENTRADAS</code>. Estructura en <code>02-PLANTILLAS</code>, resultado en <code>03-SALIDAS</code>.</p></div>
+    <div class="step"><div class="n">2</div><p><b>Conecta solo esa carpeta</b>Nunca el Escritorio ni una unidad entera. El agente solo ve lo que le das.</p></div>
+    <div class="step"><div class="n">3</div><p><b>Aprueba el plan</b>Work enseña su plan antes de ejecutar. Revísalo y dale.</p></div>
+  </div>
+  <h3 class="blocktitle">El encargo, palabra por palabra</h3>
+  <p class="lead">Cada frase tiene un porqué: <b>“Lee TODOS… completos”</b> obliga a recorrer las 200 páginas; <b>“sección y página”</b> te deja comprobar que leyó; <b>“No consta”</b> es la puerta de escape contra alucinaciones.</p>
+  <div id="p1holder"></div>
+  <h3 class="blocktitle">Comprobar que Work funcionó — 4 preguntas</h3>
+  <ul class="clean" id="check4"></ul>
+  <h3 class="blocktitle">La puerta de calidad</h3>
+  <p class="lead">El trabajo no termina cuando se guarda.</p>
+  <div class="cols2">
+    <div class="colbox ok"><h4>Pasa a revisión humana</h4><ul>
+      <li>Afirmaciones críticas localizadas</li>
+      <li>“No consta” donde falta evidencia</li>
+      <li>Dato, inferencia y recomendación separados</li>
+      <li>Archivo final abierto y revisable</li></ul></div>
+    <div class="colbox stop"><h4>Revisa o detente</h4><ul>
+      <li>Una cita que no sostiene la frase</li>
+      <li>Dosis, seguridad o endpoint sin soporte</li>
+      <li>Página o fuente inventada</li>
+      <li>Documento sensible en entorno no aprobado</li></ul></div>
+  </div>
+</div></section>
+
+<!-- PROYECTOS -->
+<section id="proyectos"><div class="wrap">
+  <div class="kick">Bloque 3 · Tus proyectos</div>
+  <h2>Un proyecto = un especialista contratado</h2>
+  <p class="lead">Primero el entorno aprobado, después el modelo. Cada especialista, con sus instrucciones listas para copiar.</p>
+  <div class="grid g3" style="margin-bottom:18px">
+    <div class="card"><span class="tag claude">Claude</span><h3>Lector de Protocolos<span class="live">hoy en vivo</span></h3><p>Resúmenes trazables con cita de sección y página; “No consta” obligatorio.</p></div>
+    <div class="card"><span class="tag claude">Claude</span><h3>Redactor Regulatorio</h3><p>Lenguaje FDA/EMA, marcadores [PENDIENTE], lista “para verificar”.</p></div>
+    <div class="card"><span class="tag claude">Claude</span><h3>Slide Maker</h3><p>Primero guion, después slides; una idea por diapositiva.</p></div>
+    <div class="card"><span class="tag gpt">ChatGPT</span><h3>Vigilancia Científica<span class="live">hoy en vivo</span></h3><p>Búsqueda web obligatoria; PubMed, FDA, EMA, ClinicalTrials.gov.</p></div>
+    <div class="card"><span class="tag gpt">ChatGPT</span><h3>Ayudante de Estadística</h3><p>Cálculo paso a paso; explicación técnica y en simple.</p></div>
+    <div class="card" style="background:var(--ink);color:#fff;border:0"><h3 style="color:#fff">La receta de 5 piezas</h3><p style="color:#C7D3DD"><b>Rol</b> (quién es) · <b>Entradas</b> (con qué) · <b>Proceso</b> (cómo) · <b>Salida</b> (qué entrega) · <b>Puertas</b> (datos + calidad).</p></div>
+  </div>
+  <div id="instrucciones"></div>
+</div></section>
+
+<!-- PROMPTS -->
+<section id="prompts"><div class="wrap">
+  <div class="kick">Repositorio</div>
+  <h2>Prompts de clase</h2>
+  <p class="lead">Copia el que necesites. Filtra por categoría o descárgalos todos en un .txt.</p>
+  <div class="toolbar" id="filters"></div>
+  <div style="margin:8px 0 4px"><button class="btn" onclick="downloadAll()">⬇ Descargar todos los prompts (.txt)</button></div>
+  <div id="promptList"></div>
+</div></section>
+
+<!-- SKILLS -->
+<section id="skills"><div class="wrap">
+  <div class="kick">Bloque 4 · Skills</div>
+  <h2>Proyecto = contexto. Skill = proceso.</h2>
+  <p class="lead">Una skill lleva el mismo método a cualquier chat: se activa sola cuando reconoce la tarea, o la invocas con <code>/nombre</code>. La descripción es el gatillo.</p>
+
+  <h3 class="blocktitle">Cómo creas tu próxima skill (con skill-creator)</h3>
+  <div class="steps" style="margin-bottom:18px">
+    <div class="step"><div class="n">1</div><p><b>Ábrelo en Cowork</b>Escribe: <code>Usa el skill-creator para construir una skill para [tarea].</code></p></div>
+    <div class="step"><div class="n">2</div><p><b>Te entrevista</b>Responde sus preguntas. La IA te pregunta a ti (AskUserQuestion): más fácil que escribir el prompt.</p></div>
+    <div class="step"><div class="n">3</div><p><b>Genera el SKILL.md</b>Crea la carpeta con las instrucciones y corre su evaluación.</p></div>
+    <div class="step"><div class="n">4</div><p><b>Súbela y pruébala</b>Ajustes › Capacidades › Skills › Subir. Luego <code>/nombre</code> en cualquier chat.</p></div>
+  </div>
+  <div class="band"><b>HOW-TO decide el qué</b> (prompt, proyecto o skill); <b>skill-creator construye el cómo.</b> El primero es tu coach; el segundo teclea el SKILL.md. Los dos son regalos de abajo.</div>
+
+  <h3 class="blocktitle">Tu primera skill: VERACITY SCORE</h3>
+  <p class="lead">Tu control de calidad para material médico y regulatorio. Mide <strong>trazabilidad</strong> —cuánta evidencia es rastreable a una fuente— no un “porcentaje de verdad”. La decisión final siempre es tuya.</p>
+  <div class="grid g2" style="margin-bottom:14px">
+    <div class="card"><h3>1 · Puerta de datos</h3><p>Confirma que el material puede procesarse aquí; si no, se detiene.</p></div>
+    <div class="card"><h3>2 · Atomiza</h3><p>Separa afirmaciones y marca dosis, seguridad, endpoints y requisitos como críticos.</p></div>
+    <div class="card"><h3>3 · Contrasta</h3><p>Localiza evidencia (sección/página o fuente); si no aparece, “No consta”.</p></div>
+    <div class="card"><h3>4 · Informa</h3><p>Estados, alertas, corrección propuesta y veredicto de revisión humana.</p></div>
+  </div>
+  <div class="states"><span>VERIFICADA</span><span>PARCIAL</span><span>SIN SOPORTE</span><span>CONTRADICHA</span><span>NO VERIFICABLE</span></div>
+  <div class="note"><b>Regla no negociable:</b> una cifra global nunca compensa una afirmación crítica contradicha o sin soporte. Umbral médico/regulatorio: 95%+.</div>
+  <p style="margin-top:16px"><b>Si Skills está bloqueado</b>, úsala como prompt:</p>
+  <div id="skillPrompt"></div>
+
+  <h3 class="blocktitle">Fable: crear caro, ejecutar barato</h3>
+  <div class="grid g3">
+    <div class="card"><h3 style="color:var(--teal)">Fable · HIGH</h3><p>Diseñar, criticar y depurar la skill. Es el punto de partida; sube solo con una razón medible.</p></div>
+    <div class="card"><h3 style="color:var(--amber)">xhigh / MAX</h3><p>Solo si la prueba A/B muestra que compensa tiempo y créditos.</p></div>
+    <div class="card"><h3>Modelo eficiente</h3><p>Ejecución diaria cuando pasa el mismo umbral de calidad.</p></div>
+  </div>
+</div></section>
+
+<!-- TRUCOS -->
+<section id="trucos"><div class="wrap">
+  <div class="kick">Bloque 5</div>
+  <h2>15 trucos que reducen retrabajo</h2>
+  <p class="lead">El nº1 es el que más cambia tus resultados: deja que la IA te entreviste.</p>
+  <ul class="clean" id="trucosList"></ul>
+</div></section>
+
+<!-- REGALOS -->
+<section id="regalos"><div class="wrap">
+  <div class="kick">Para que juegues</div>
+  <h2>Regalos · Coge mis skills</h2>
+  <p class="lead">Descárgalas con un clic. Para instalarlas en Claude: Ajustes › Capacidades › Skills › Subir skill (sube el .zip). Si tu workspace las tiene bloqueadas, usa la versión prompt.</p>
+  <div class="gifts" id="giftList"></div>
+</div></section>
+
+<!-- PLAN -->
+<section id="plan"><div class="wrap">
+  <div class="kick">Los próximos 7 días</div>
+  <h2>La próxima clase empieza con evidencia</h2>
+  <ul class="clean" id="deberes"></ul>
+  <div class="band" style="margin-top:16px"><b>Resultado esperado:</b> un reporte, una skill en diseño y una decisión concreta de plataforma. Clase 3: Cowork si IT aprueba · PPTX científico · revisión de tu segunda skill.</div>
+</div></section>
+
+<!-- LÍNEAS ROJAS -->
+<section id="lineas"><div class="wrap">
+  <div class="kick">Honestidad</div>
+  <h2>Lo que NO es verdad (aunque lo hayas oído)</h2>
+  <div class="redlist" id="redlines"></div>
+</div></section>
+
+<!-- FUENTES -->
+<section id="fuentes"><div class="wrap">
+  <div class="kick">Verificado 13/07/2026</div>
+  <h2>Fuentes oficiales</h2>
+  <p class="lead">Revalida antes de cada uso: disponibilidad y controles cambian por plan, región y administrador.</p>
+  <div class="srcgrid" id="srcList"></div>
+</div></section>
+
+<footer><div class="wrap">Guía preparada por Carla Casas para Marco · Clase 2 · julio 2026 · <a href="#top">volver arriba</a></div></footer>
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script>
+/* ---------- DATA ---------- */
+const INSTRUCCIONES=[
+ {t:"Lector de Protocolos",cat:"Claude",body:
+`Eres un revisor de protocolos clínicos y documentación técnica en oncología y terapia celular.
+
+PUERTA DE DATOS
+- Trabaja únicamente con material permitido en este workspace. Si detectas datos de paciente, identificadores o información cuya autorización no esté clara, detente y avísame.
+
+MODO DOCUMENTAL
+1. Usa solo los documentos que he aportado. No completes huecos con memoria ni conocimiento general.
+2. Para cada afirmación importante, indica sección, tabla/figura y página. Incluye un pasaje breve que la sostenga.
+3. Si algo no aparece, escribe exactamente: "No consta en los documentos aportados".
+4. Separa [DATO DEL DOCUMENTO], [INFERENCIA] y [CONOCIMIENTO EXTERNO]. No uses conocimiento externo salvo que lo solicite.
+5. Prioriza dosis, pauta, población, elegibilidad, endpoints, tamaño muestral, seguridad y limitaciones.
+
+SALIDA POR DEFECTO
+- Resumen ejecutivo, máximo una página.
+- 10 puntos críticos con localización exacta.
+- Riesgos y alertas.
+- Qué no cubre el documento.
+- Tabla PARA VERIFICAR.
+
+Antes de cerrar, haz una segunda pasada para detectar extrapolaciones, cifras sin denominador, causalidad no demostrada y citas que no sostienen la frase.`},
+ {t:"Redactor Regulatorio FDA/EMA",cat:"Claude",body:
+`Eres un medical writer senior especializado en documentación regulatoria de oncología y terapia celular.
+
+1. Pregunta primero: tipo de documento, jurisdicción/audiencia, sección, material de partida y fecha límite.
+2. Escribe el entregable final en inglés regulatorio; explica decisiones en español.
+3. No inventes datos, estudio, DOI, requisito ni referencia. Usa [PENDIENTE: dato necesario].
+4. Distingue requisito oficial vigente, práctica habitual y recomendación de estilo.
+5. Si una afirmación depende de un archivo, añade localización. Si depende de una fuente externa, usa la fuente primaria oficial.
+6. Evita tono promocional, ambigüedad y causalidad no demostrada.
+7. Termina con PARA VERIFICAR y REVISIONES HUMANAS REQUERIDAS.
+
+No declares el documento listo para envío a una agencia: es un borrador sujeto a revisión médica, estadística, legal y regulatoria.`},
+ {t:"Slide Maker científico",cat:"Claude",body:
+`Eres un diseñador de presentaciones científicas para audiencias farmacéuticas y médicas.
+
+Antes de crear, confirma audiencia, duración, objetivo, decisión esperada, plantilla y fuentes autorizadas.
+Usa una idea principal por diapositiva y títulos que expresen la conclusión.
+Estructura por defecto: contexto → tensión → evidencia → implicación → decisión/siguiente paso.
+Entrega primero el guion: título, 2-3 ideas y nota del presentador por slide. Espera aprobación antes del PPTX.
+No inventes datos ni gráficos. Cada dato debe señalar archivo, página o fuente externa autorizada.
+Marca [VISUAL PENDIENTE] si falta una figura válida.
+El PPTX final debe ser editable y pasar revisión visual completa: sin texto cortado, solapamientos ni tablas ilegibles.`},
+ {t:"Vigilancia Científica",cat:"ChatGPT",body:
+`Eres mi analista de vigilancia científica en oncología y terapia celular.
+
+Usa búsqueda web para preguntas actuales. Prioriza PubMed y publicación primaria, registros oficiales, FDA, EMA, guías vigentes y congresos reconocidos.
+Para cada hallazgo incluye título, entidad/autores, fecha, tipo de evidencia, enlace y por qué importa.
+Separa [REVISADO POR PARES], [PREPRINT], [ABSTRACT], [REGULATORIO] y [NOTA DE PRENSA].
+No confundas fecha de publicación con fecha del estudio o actualización del registro.
+Si varias noticias remiten al mismo estudio, trátalas como una sola evidencia.
+Si no hay novedades relevantes dentro del periodo, dilo sin rellenar con resultados antiguos.
+Salida: resumen ejecutivo de cinco líneas + tabla + tres implicaciones + límites.`},
+ {t:"Ayudante de Estadística",cat:"ChatGPT",body:
+`Eres un bioestadístico de apoyo para estudios clínicos.
+
+Antes de analizar, confirma pregunta, diseño, población, endpoint, variables, tamaño muestral, datos faltantes y software.
+Revisa si el método responde a la pregunta, si se cumplen supuestos, si hay multiplicidad, confusores, sesgo y potencia suficiente.
+Explica primero en lenguaje técnico y después en lenguaje claro para un médico no especialista.
+Muestra fórmulas, supuestos y pasos reproducibles. Si generas código, coméntalo y no simules que se ejecutó si no se ejecutó.
+No inventes datos faltantes ni conviertas asociación en causalidad.
+Termina con limitaciones, análisis de sensibilidad y puntos que debe validar un bioestadístico responsable.
+No uses datos de paciente fuera de un entorno corporativo aprobado.`}
+];
+
+const PROMPTS=[
+ {id:"P1",cat:"Work",t:"Informe trazable desde una carpeta",body:
+`Trabaja únicamente con los archivos de esta carpeta. Antes de ejecutar, muéstrame un plan breve y señala si falta algún documento.
+
+Objetivo: crear un informe Word en 03-SALIDAS llamado INFORME-REVISION.docx.
+
+Incluye:
+1. Resumen ejecutivo, máximo una página.
+2. Hasta 10 puntos críticos. Para cada uno: afirmación, sección/página y un pasaje breve que la sostenga.
+3. Riesgos, alertas y limitaciones mencionadas.
+4. Qué no cubren los documentos.
+5. Tabla PARA VERIFICAR con afirmaciones parciales, ambiguas o no localizadas.
+
+Reglas:
+- No uses conocimiento externo.
+- Si algo no aparece, escribe "No consta en los documentos aportados".
+- Separa dato, inferencia y recomendación.
+- No inventes páginas, citas ni datos.
+- Haz una segunda pasada crítica antes de guardar el archivo.`},
+ {id:"P2",cat:"Decidir",t:"Convertir una necesidad en el contenedor correcto",body:
+`Quiero conseguir [RESULTADO]. Antes de ayudarme, hazme hasta tres preguntas necesarias. Después recomienda: Chat, Proyecto, Skill, Work/Cowork, NotebookLM o no automatizar. Explica la elección en una tabla breve y dame el primer paso.`},
+ {id:"P3",cat:"Proyectos",t:"Crear instrucciones de proyecto desde conversaciones",body:
+`Revisa las conversaciones y archivos de este proyecto. Propón instrucciones permanentes que incluyan: rol, entradas, proceso, formato de salida, fuentes permitidas, puerta de datos, errores que debes evitar y criterio de aceptación. No ejecutes todavía el trabajo del proyecto. Devuélveme primero el texto de instrucciones para aprobarlo.`},
+ {id:"P4",cat:"Verificar",t:"Verificación limpia",body:
+`Congela el texto tal como está. Verifícalo afirmación por afirmación contra las fuentes adjuntas. No lo mejores mientras verificas. Separa: VERIFICADA, PARCIAL, SIN SOPORTE, CONTRADICHA y NO VERIFICABLE. Incluye la localización exacta y después propón correcciones.`},
+ {id:"P5",cat:"Verificar",t:"VERACITY SCORE como prompt (si Skills está bloqueado)",body:
+`Actúa como VERACITY SCORE. Audita la trazabilidad de este texto médico/regulatorio, sin prometer "cero alucinaciones".
+
+1. PUERTA DE DATOS: confirma que el material puede procesarse en este workspace; si hay datos de paciente o confidenciales sin aprobar, detente y pídeme una versión permitida.
+2. Fija el modo: DOCUMENTAL (solo los archivos que aporto), EXTERNO (fuentes públicas actuales) o HÍBRIDO. Por defecto DOCUMENTAL con protocolos.
+3. Atomiza cada afirmación. Marca CRÍTICA: dosis, pauta, población, endpoint, valor p, seguridad, contraindicación, aprobación o requisito regulatorio.
+4. Busca evidencia: en documental, sección/página + pasaje breve; si no aparece, "No consta en las fuentes aportadas". En externo, fuentes primarias/regulatorias; comprueba fecha, versión, población y magnitud.
+5. Clasifica: VERIFICADA / PARCIAL / SIN SOPORTE / CONTRADICHA / NO VERIFICABLE / FUERA DE ALCANCE. "No encontrado" no es "contradicho".
+6. Segunda pasada escéptica: extrapolaciones, asociación presentada como causa, denominador equivocado, resultado secundario como primario, guías caducadas, citas que no sostienen la frase.
+7. Informe: veredicto (PASA A REVISIÓN HUMANA / REVISAR ANTES DE CONTINUAR / NO LIBERAR), índice de trazabilidad (aclara que mide evidencia localizada, no verdad), alertas críticas, tabla de afirmaciones y correcciones.
+
+No inventes fuentes, páginas ni DOI. No subas la puntuación para complacerme. Cierra recordando que esto no sustituye la validación médica, estadística, legal ni regulatoria. Texto:
+[PEGAR AQUÍ]`},
+ {id:"P6",cat:"Skills",t:"Instalar y probar una skill",body:
+`He instalado la skill [NOMBRE]. Antes de usarla, dime en dos frases cuándo debería activarse y cuándo no. Después aplica la skill a este caso de prueba y al final identifica cualquier parte de la salida que la skill no haya controlado bien.`},
+ {id:"P7",cat:"Skills",t:"Ajustar una skill con evidencia de fallo (Fable)",body:
+`Usa skill-creator. En dos pruebas observé el mismo fallo: [DESCRIBIR FALLO Y PEGAR EJEMPLOS]. Ajusta solo la regla responsable, conserva la puerta de datos y la revisión humana, añade o actualiza un caso de prueba y entrega la skill completa. No amplíes el alcance.`},
+ {id:"P8",cat:"Proyectos",t:"Auditoría mensual de proyectos",body:
+`Audita este proyecto como sistema de trabajo. Revisa: claridad del objetivo, archivos obsoletos o duplicados, instrucciones, contaminación de contexto, formato de salida, puerta de datos y tareas que deberían ser una skill. Devuelve: conservar, cambiar y archivar. No borres nada sin mi aprobación.`}
+];
+
+const SKILL_PROMPT=PROMPTS.find(p=>p.id==="P5").body;
+
+const CHECK4=[
+ "¿Cada afirmación importante lleva página o sección?",
+ "¿Distingue dato, inferencia y conocimiento general?",
+ "¿Dice “No consta” donde toca, o lo rellena todo?",
+ "¿El archivo quedó guardado en 03-SALIDAS?"
+];
+
+const TRUCOS=[
+ "Deja que la IA te entreviste (AskUserQuestion): “Antes de empezar, hazme preguntas de opción múltiple para afinar.” Se prompta sola mejor que tú.",
+ "Prompt de cinco piezas: objetivo, entradas, restricciones, formato y criterio de aceptación.",
+ "Escape hatch: “Si no consta en la fuente, escribe ‘No consta’; no completes el hueco.”",
+ "Plan antes de ejecución: en Work/Cowork, revisa el plan y limita carpetas, apps y acciones antes de aprobar.",
+ "Carpeta mínima: conecta solo la carpeta de la tarea, nunca una unidad completa por comodidad.",
+ "Cita que realmente sostiene: pide página/sección y un pasaje breve, no solo una bibliografía al final.",
+ "Chat limpio para verificar: genera en un chat; verifica el texto congelado en otro con VERACITY SCORE.",
+ "Separa dato, inferencia y recomendación. Si aparecen mezclados, el lector no puede auditar el razonamiento.",
+ "Mismo input, misma rúbrica: compara modelos o skills solo con casos y criterios idénticos.",
+ "Crear caro, ejecutar eficiente: Fable/high para diseñar o depurar; ejecuta con el modelo más barato que pase el umbral.",
+ "Un ejemplo vale más que diez adjetivos: adjunta una buena salida anterior y explica qué conservar.",
+ "No repares todo a la vez: itera una dimensión (contenido, formato, fuentes o tono).",
+ "Fecha y versión: para guías, aprobaciones, modelos o políticas, exige fecha de consulta y versión.",
+ "No confundas opt-out con autorización: una cuenta personal con entrenamiento desactivado no es un workspace corporativo aprobado.",
+ "Cierre operativo: “Dime qué no pudiste verificar, qué tengo que decidir yo y cuál es el siguiente paso.”"
+];
+
+const GIFTS=[
+ {em:"✅",t:"VERACITY SCORE",d:"Tu control de calidad anti-alucinación para material médico y regulatorio. Mide trazabilidad, no “% de verdad”. Con rúbrica y casos de prueba.",zip:"skills/veracity-score.zip"},
+ {em:"🧭",t:"HOW-TO",d:"Tu coach de IA: primero decide la herramienta correcta (prompt, proyecto, skill, Work…), después te lleva paso a paso hasta construirla. Para quien empieza de cero.",zip:"skills/how-to.zip"},
+ {em:"✍️",t:"47 · Optimizar prompts",d:"Convierte cualquier idea suelta en un prompt afinado y listo para enviar. Para escribir mejores instrucciones sin pelearte.",zip:"skills/47.zip"},
+ {em:"🎓",t:"Cloud Coach",d:"Coach 360° para dominar Claude: qué modelo/plan usar, cómo sacarle más partido, diseñar formaciones. Base de conocimiento amplia.",zip:"skills/cloud-coach.zip"}
+];
+
+const DEBERES=[
+ "Completar el inventario de proyectos con los nombres reales.",
+ "Configurar los 3 proyectos pendientes con las instrucciones del pack.",
+ "Pasar 1 documento ficticio o aprobado por VERACITY SCORE y revisar sus alertas.",
+ "Usar HOW-TO para diseñar tu segunda skill (tu tarea más repetitiva).",
+ "Preguntar a IT: Work, Skills, plugins/apps y Cowork en tu workspace."
+];
+
+const REDLINES=[
+ ["Opt-out en cuenta personal = seguro para datos de empresa.","Falso. La política de AstraZeneca sigue mandando."],
+ ["El agente lee siempre todas las páginas.","No garantizado. Valida con trazabilidad y revisión humana."],
+ ["95% de score = verdad o aprobación.","Falso. VERACITY SCORE mide trazabilidad, no verdad."],
+ ["El modelo más caro siempre gana.","Solo si la evaluación lo demuestra."],
+ ["El vídeo de YouTube era la fuente.","Era una pista. Confirma siempre con la documentación oficial."]
+];
+
+const SOURCES=[
+ ["ChatGPT Work (OpenAI)","https://openai.com/chatgpt-work/"],
+ ["Work y Codex","https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex"],
+ ["GPT-5.6 en ChatGPT","https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"],
+ ["Projects en ChatGPT","https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt"],
+ ["Skills en ChatGPT","https://help.openai.com/en/articles/20001066-skills-in-chatgpt"],
+ ["Privacidad empresarial OpenAI","https://openai.com/business-data/"],
+ ["Claude Fable 5","https://www.anthropic.com/claude/fable"],
+ ["Modelos Claude","https://platform.claude.com/docs/en/about-claude/models/overview"],
+ ["Esfuerzo (effort)","https://platform.claude.com/docs/en/build-with-claude/effort"],
+ ["Usar Skills en Claude","https://support.claude.com/en/articles/12512180-use-skills-in-claude"],
+ ["Empezar con Cowork","https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork"],
+ ["Privacidad Anthropic","https://privacy.anthropic.com/en/articles/7996885-how-do-you-use-personal-data-in-model-training"],
+ ["NotebookLM: introducción","https://support.google.com/notebooklm/answer/16164461"],
+ ["NotebookLM: fuentes y límites","https://support.google.com/notebooklm/answer/16215270"]
+];
+
+/* ---------- RENDER ---------- */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function promptBlock(title,body,id){
+  return '<div class="prompt"><div class="top"><b>'+esc(title)+'</b>'+
+    '<button class="btn" onclick="copyText(this,\''+id+'\')">Copiar</button></div>'+
+    '<pre id="'+id+'">'+esc(body)+'</pre></div>';
+}
+document.getElementById('p1holder').innerHTML=promptBlock("P1 · El encargo a Work",PROMPTS[0].body,"p1main");
+document.getElementById('check4').innerHTML=CHECK4.map((t,i)=>'<li><span class="k">'+(i+1)+'</span><span>'+esc(t)+'</span></li>').join('');
+document.getElementById('instrucciones').innerHTML=INSTRUCCIONES.map((x,i)=>promptBlock(x.t+"  ·  "+x.cat,x.body,"instr"+i)).join('');
+
+const cats=["Todos",...Array.from(new Set(PROMPTS.map(p=>p.cat)))];
+let activeCat="Todos";
+function renderFilters(){document.getElementById('filters').innerHTML=cats.map(c=>'<span class="chipf '+(c===activeCat?'on':'')+'" onclick="setCat(\''+c+'\')">'+c+'</span>').join('');}
+function renderPrompts(){const l=PROMPTS.filter(p=>activeCat==="Todos"||p.cat===activeCat);document.getElementById('promptList').innerHTML=l.map(p=>promptBlock(p.id+" · "+p.t,p.body,p.id)).join('');}
+function setCat(c){activeCat=c;renderFilters();renderPrompts();}
+renderFilters();renderPrompts();
+document.getElementById('skillPrompt').innerHTML=promptBlock("VERACITY SCORE · versión prompt",SKILL_PROMPT,"veracityprompt");
+document.getElementById('trucosList').innerHTML=TRUCOS.map((t,i)=>'<li><span class="k">'+(i+1)+'</span><span>'+esc(t)+'</span></li>').join('');
+document.getElementById('giftList').innerHTML=GIFTS.map(g=>'<div class="gift"><div class="em">'+g.em+'</div><h3>'+esc(g.t)+'</h3><p>'+esc(g.d)+'</p><a class="dl" href="'+g.zip+'" download>⬇ Descargar .zip</a></div>').join('');
+document.getElementById('deberes').innerHTML=DEBERES.map((t,i)=>'<li><span class="k">'+(i+1)+'</span><span>'+esc(t)+'</span></li>').join('');
+document.getElementById('redlines').innerHTML=REDLINES.map(r=>'<div class="reditem"><b>“'+esc(r[0])+'”</b> '+esc(r[1])+'</div>').join('');
+document.getElementById('srcList').innerHTML=SOURCES.map(s=>'<a href="'+s[1]+'" target="_blank" rel="noopener">'+esc(s[0])+' ↗</a>').join('');
+
+/* ---------- ACTIONS ---------- */
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1600);}
+function copyText(btn,id){const txt=document.getElementById(id).innerText;navigator.clipboard.writeText(txt).then(()=>{btn.textContent="Copiado ✓";toast("Copiado al portapapeles ✓");setTimeout(()=>btn.textContent="Copiar",1500);}).catch(()=>toast("No se pudo copiar"));}
+function downloadAll(){
+  let out="GUÍA DE PROMPTS — Marco · Clase 2\n\n=== INSTRUCCIONES DE PROYECTO ===\n";
+  INSTRUCCIONES.forEach(x=>{out+="\n--- "+x.t+" ("+x.cat+") ---\n"+x.body+"\n";});
+  out+="\n=== PROMPTS DE CLASE ===\n";
+  PROMPTS.forEach(p=>{out+="\n--- "+p.id+" · "+p.t+" ---\n"+p.body+"\n";});
+  const blob=new Blob([out],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download="prompts-marco-clase2.txt";a.click();
+  toast("Descargando prompts .txt");
+}
+</script>
+</body>
+</html>
